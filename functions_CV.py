@@ -11,14 +11,14 @@ def imshow_center(img_path, window_name, monitor=0):
     monitor = get_monitors()[monitor]
 
     # Get the window size (height, width)
-    window_height, window_width = img.shape[:2]
+    img_height, img_width = img.shape[:2]
 
     # Compute the scaling factor to maintain aspect ratio
-    scale_factor = min(monitor.width / window_width, monitor.height / window_height)
+    scale_factor = min(monitor.width / img_width, monitor.height / img_height)
 
     # Compute new dimensions
-    new_width = int(window_width * scale_factor)
-    new_height = int(window_height * scale_factor)
+    new_width = int(img_width * scale_factor) - 50
+    new_height = int(img_height * scale_factor) - 50
 
     # Resize the image
     resized_image = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_AREA)
@@ -28,8 +28,8 @@ def imshow_center(img_path, window_name, monitor=0):
     center_y = monitor.height // 2
 
     # Calculate the top-left corner of the window
-    top_left_x = center_x - (window_width // 2)
-    top_left_y = center_y - (window_height // 2)
+    top_left_x = center_x - (new_width // 2)
+    top_left_y = center_y - (new_height // 2)
 
     # Create a window and move it to the center of the screen
     cv2.namedWindow(window_name)
@@ -37,6 +37,8 @@ def imshow_center(img_path, window_name, monitor=0):
 
     # Display the object with the index
     cv2.imshow(window_name, resized_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 # RESIZE IMAGE 
 def resize_img(img, width, height):
