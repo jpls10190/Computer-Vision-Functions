@@ -107,23 +107,3 @@ def show_pixel_intensity(window_name, image):
     # Create window and set mouse callback
     cv2.imshow(window_name, display_img)
     cv2.setMouseCallback(window_name, mouse_callback)
-
-
-# Load the image
-img = cv2.imread("img/IMG_20250505_115933.jpg")
-
-if len(img.shape) == 3:
-    gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-else:
-    gray_image = img
-
-# Apply thresholding
-_, binary_image = cv2.threshold(gray_image, threshold_value, max_value, cv2.THRESH_BINARY)
-
-# Display images with pixel intensity functionality
-show_pixel_intensity('Original Image (Hover to see pixel values)', img)
-show_pixel_intensity('Binary Image (Hover to see pixel values)', binary_image)
-
-# Wait for key press and close windows
-cv2.waitKey(0)
-cv2.destroyAllWindows()
