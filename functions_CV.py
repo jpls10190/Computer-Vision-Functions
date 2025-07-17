@@ -107,3 +107,21 @@ def show_pixel_intensity(window_name, image):
     # Create window and set mouse callback
     cv2.imshow(window_name, display_img)
     cv2.setMouseCallback(window_name, mouse_callback)
+
+def remove_small_objects(binary_img, min_area):
+    # Ensure binary image is 0 and 255
+    binary_img = (binary_img > 0).astype(np.uint8) * 255
+
+    # Get connected components
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(binary_img, connectivity=8)
+
+    # Create output image initialized to black
+    output = np.zeros_like(binary_img)
+
+    # Loop through all components (skip background: label 0)
+    for i in range(1, num_labels):
+        area = stats[i, cv2.CC_STAT_AREA]
+        if area >= min_area:
+            output[labels == i] = 255
+
+    return output
